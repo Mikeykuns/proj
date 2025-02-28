@@ -15,7 +15,7 @@ class Game(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True)
 
-def __str__(self):
+    def __str__(self):
         return self.name
 
 
