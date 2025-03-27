@@ -1,7 +1,21 @@
 import React from 'react';
 import { Navbar, Nav, Container, Form, FormControl, Button } from 'react-bootstrap';
+import { logout } from '../actions/userActions';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { NavDropdown } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+
 
 function Header() {
+    const userLogin = useSelector(state => state.userLogin);
+    const {userInfo} = userLogin;
+    const dispatch = useDispatch();
+
+    const logoutHandler = () => {
+        dispatch(logout());
+    };
+
     return (
         <Navbar 
             expand="lg" 
@@ -119,6 +133,24 @@ function Header() {
                     </Nav>
                 </Navbar.Collapse>
             </Container>
+            <Nav className="ml-auto">
+                {userInfo ? (
+                    <NavDropdown title={userInfo.name} id="username">
+                        <LinkContainer to="/profile">
+                            <NavDropdown.Item>Profile</NavDropdown.Item>
+                        </LinkContainer>
+                        <NavDropdown.Item onClick={logoutHandler}>
+                            Logout
+                        </NavDropdown.Item>
+                    </NavDropdown>
+                ) : (
+                    <LinkContainer to="/login">
+                        <Nav.Link>
+                            <i className="fas fa-user"></i> Login
+                        </Nav.Link>
+                    </LinkContainer>
+                )}
+            </Nav>
         </Navbar>
     );
 }

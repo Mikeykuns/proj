@@ -3,26 +3,20 @@ import axios from 'axios';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomeScreen from './screens/HomeScreen';
+import {Route, Routes } from 'react-router-dom';
+import LoginScreen from './screens/LoginScreen';
+import ProductScreen from './screens/ProductScreen';
 
 function App() {
-    const [games, setGames] = useState([]);
-
-    useEffect(() => {
-        axios.get('http://localhost:8000/api/games/')
-            .then(response => {
-                console.log(response.data);
-                setGames(response.data); 
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, []); 
-
     return (
         <>
             <Header />
             <main>
-                <HomeScreen games={games} /> {/* Pass the fetched games data as a prop */}
+                <Routes> {/* ✅ No need for Router here */}
+                    <Route path='/' element={<HomeScreen />} exact />
+                    <Route path='/login' element={<LoginScreen />} />
+                    <Route path='/product/:id' element={<ProductScreen />} />
+                </Routes>
             </main>
             <Footer />
         </>

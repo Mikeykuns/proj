@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
-import Product from '../components/Product';
-import Loader from "../components/Loader";
+import Game from '../components/Game';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 
 function HomeScreen() {
   const dispatch = useDispatch();
@@ -56,15 +57,17 @@ function HomeScreen() {
         {loading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{error}</Message>
-        ) : (
+          <Message variant="danger">{error}</Message>
+        ) : products && products.length > 0 ? (
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3} style={{ paddingBottom: '20px' }}>
-                <Product product={product} />
+                <Game product={product} />
               </Col>
             ))}
           </Row>
+        ) : (
+          <Message variant="info">No products found</Message>
         )}
       </Container>
     </div>
